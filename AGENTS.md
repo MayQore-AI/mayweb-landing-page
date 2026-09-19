@@ -15,6 +15,10 @@ This is the canonical project structure. Start with task-relevant files below. O
 
 - `src/main.tsx` - React entrypoint; imports `src/index.css` and mounts `src/App.tsx` into the `#root` element
 - `src/App.tsx` - Primary application component and the usual starting point for UI work
+- `src/pages/HomePage.tsx` - Page-level composition for the home page
+- `src/components/` - Shared UI primitives and reusable content cards
+- `src/data/` - Static site content and repeatable data structures
+- `src/styles/` - Shared design tokens
 - `src/index.css` - Global CSS entrypoint and Tailwind CSS v4 import
 - `index.html` - Vite HTML shell containing the `#root` element and loading `src/main.tsx`
 - `package.json` - Project dependencies and the Vite build, development, preview, and formatting scripts
