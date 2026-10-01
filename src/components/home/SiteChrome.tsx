@@ -1,15 +1,16 @@
-import { C } from "../../styles/theme"
-import { STATS, TICKER_ITEMS } from "../../data/siteContent"
-import { AnimHeadline, Btn, NavLink } from "../ui"
+import { C } from "../../styles/theme";
+import { STATS, TICKER_ITEMS } from "../../data/siteContent";
+import { AnimHeadline, Btn, NavLink } from "../ui";
+import { useState } from "react";
 
-const BORDER = `1px solid ${C.border}`
+const BORDER = `1px solid ${C.border}`;
 const NAV = [
   { label: "Services", id: "services" },
   { label: "Domains", id: "domains" },
   { label: "Impact", id: "impact" },
   { label: "Why us", id: "why" },
   { label: "FAQ", id: "faq" },
-]
+];
 
 export function Logo() {
   return (
@@ -30,34 +31,40 @@ export function Logo() {
     >
       MW
     </div>
-  )
+  );
 }
 
 export function SiteNav({
   scrolled,
   scrollTo,
 }: {
-  scrolled: boolean
-  scrollTo: (id: string) => void
+  scrolled: boolean;
+  scrollTo: (id: string) => void;
 }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleNavigate = (id: string) => {
+    scrollTo(id);
+    setMenuOpen(false);
+  };
+
   return (
     <nav
       style={{
         position: "fixed",
         inset: "0 0 auto",
         zIndex: 100,
-        background: scrolled ? "rgba(11,9,6,0.92)" : "transparent",
-        backdropFilter: scrolled ? "blur(16px)" : "none",
-        borderBottom: scrolled ? BORDER : "none",
+        background: scrolled || menuOpen ? "rgba(11,9,6,0.96)" : "transparent",
+        backdropFilter: scrolled || menuOpen ? "blur(16px)" : "none",
+        borderBottom: scrolled || menuOpen ? BORDER : "none",
         transition: "background 0.4s, border-color 0.4s",
       }}
     >
       <div
+        className={`site-nav-inner${menuOpen ? " is-open" : ""}`}
         style={{
           maxWidth: 1320,
           margin: "0 auto",
-          padding: "0 32px",
-          height: 68,
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -86,17 +93,31 @@ export function SiteNav({
             MayWeb
           </span>
         </button>
-        <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
+        <button
+          className="site-nav-toggle"
+          type="button"
+          aria-label={
+            menuOpen ? "Close navigation menu" : "Open navigation menu"
+          }
+          aria-expanded={menuOpen}
+          aria-controls="site-navigation-links"
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <div className="site-nav-links" id="site-navigation-links">
           {NAV.map((item) => (
-            <NavLink key={item.id} onClick={() => scrollTo(item.id)}>
+            <NavLink key={item.id} onClick={() => handleNavigate(item.id)}>
               {item.label}
             </NavLink>
           ))}
-          <Btn onClick={() => scrollTo("contact")}>Start a project →</Btn>
+          <Btn onClick={() => handleNavigate("contact")}>Start a project →</Btn>
         </div>
       </div>
     </nav>
-  )
+  );
 }
 
 export function Hero({ scrollTo }: { scrollTo: (id: string) => void }) {
@@ -245,7 +266,7 @@ export function Hero({ scrollTo }: { scrollTo: (id: string) => void }) {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 export function Footer({ scrollTo }: { scrollTo: (id: string) => void }) {
@@ -300,9 +321,9 @@ export function Footer({ scrollTo }: { scrollTo: (id: string) => void }) {
             color: C.dim,
           }}
         >
-          © {new Date().getFullYear()} MayWeb Technologies
+          © 2024 MayWeb Technologies
         </div>
       </div>
     </footer>
-  )
+  );
 }
